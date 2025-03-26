@@ -5,31 +5,45 @@ A full-stack web application to track job applications, interviews, and follow-u
 🚀 Features
 
 ✅ User Authentication (JWT-based)
+
 ✅ CRUD Job Applications (Create, Read, Update, Delete)
+
 ✅ Interview Scheduling & Notes
+
 ✅ Token-Based Auth Middleware
+
 ✅ PostgreSQL Integration
+
 ✅ Fully Tested API Endpoints
 
 🔜 Upcoming:
 
 📊 Analytics Dashboard
+
 🗕️ Google Calendar API Integration
+
 📝 Resume Matching & Job Import
+
 🧰 Tech Stack
 
 Backend:
 
 Node.js + Express.js
+
 PostgreSQL (pg)
+
 JWT + bcryptjs
+
 Sequelize ORM
 
 Frontend:
 
 React (via Create React App)
+
 React Router DOM
+
 Material UI (Planned)
+
 Redux (Planned)
 
 🗂 Project Structure
