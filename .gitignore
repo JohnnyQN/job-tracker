@@ -1,9 +1,28 @@
-# 🚀 Node.js Dependencies
+# 🛠️ Node Modules (Backend & Frontend)
 node_modules/
-package-lock.json
+client/node_modules/
 
-# 🛠️ Environment Variables
+# 🔐 Environment Variables
 .env
+.env.local
+.env.development
+.env.production
+.env.test
+.env.example
+
+# 📦 Lock Files
+package-lock.json
+client/package-lock.json
+yarn.lock
+client/yarn.lock
+
+# ⚙️ Build Outputs
+build/
+client/build/
+dist/
+coverage/
+.client/.next/
+.next/
 
 # ⚡ Logs & Debugging
 logs/
@@ -14,18 +33,13 @@ yarn-error.log*
 debug.log*
 .out/
 
-# 🔥 Compiled & Build Files
-dist/
-build/
-coverage/
-
 # 🗂️ Database & Migrations
 database.sqlite
 db.sqlite3
 migrations/
 dump.sql
 
-# ⚡ System Files
+# 💻 System Files
 .DS_Store
 Thumbs.db
 
@@ -40,10 +54,3 @@ jest/
 coverage/
 .cache/
 .nyc_output/
-
-# 🚀 Deployment & Server Files
-.env.local
-.env.development
-.env.production
-.env.test
-.env.example
