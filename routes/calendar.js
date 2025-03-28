@@ -66,7 +66,7 @@ router.get('/scheduled', authMiddleware, async (req, res) => {
     if (!userId) return res.status(401).json({ error: "Unauthorized - no user" });
 
     const dbResponse = await db.query(
-      `SELECT * FROM interviews
+      `SELECT * FROM scheduled_interviews
         WHERE user_id = $1
         ORDER BY date ASC, time ASC`,
       [userId]
