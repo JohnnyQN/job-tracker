@@ -28,25 +28,23 @@ router.post('/schedule', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // DO NOT use new Date(). Just split the string manually
-    const [dateStr, timeStr] = dateTime.split('T');       // "2025-03-29", "08:30"
-    const timeWithSeconds = `${timeStr}:00`;              // "08:30:00"
+    const [dateStr, timeStr] = dateTime.split('T');
+    const timeWithSeconds = `${timeStr}:00`;
 
     const result = await db.query(
-      `INSERT INTO interviews
-         (user_id, job_id, date, time, notes, duration, location, userEmail, description, created_at)
+      `INSERT INTO scheduled_interviews
+         (user_id, job_id, title, date, time, duration, location, description)
        VALUES
-         ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+         ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING *`,
       [
         userId,
         jobId,
+        title,
         dateStr,
         timeWithSeconds,
-        title,
         duration,
         location,
-        userEmail,
         description || ''
       ]
     );
