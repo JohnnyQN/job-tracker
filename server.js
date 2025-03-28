@@ -12,51 +12,65 @@ import db from './db.js';
 dotenv.config();
 const app = express();
 
-// ✅ Middleware
+// ✅ CORS Setup - Allow both local and deployed frontend
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://job-tracker-frontend.onrender.com',
+];
+
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true
-  }));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
+// ✅ Express Middleware
 app.use(express.json());
 app.use(session({
-    secret: process.env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: true,
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: true,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use((req, res, next) => {
-    console.log("📡 Received request:", req.method, req.url);
-    next();
+  console.log("📡 Received request:", req.method, req.url);
+  next();
 });
 
-// ✅ Debugging Logs
+// ✅ Debug Logs
 console.log("✅ Server is starting...");
 console.log("✅ Auth routes loaded:", !!authRoutes);
 
-// ✅ API Routes
+// ✅ Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/interviews', interviewRoutes);
 app.use('/api/calendar', calendarRoutes);
 
-// ✅ Health Check Route
+// ✅ Health Check
 app.get('/', (req, res) => {
-    res.send("🚀 Job Tracker API is running!");
+  res.send("🚀 Job Tracker API is running!");
 });
 
-// ✅ Server Setup & Database Connection
+// ✅ Server Startup & DB Connection
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, async () => {
-        console.log(`✅ Server running on port ${PORT}`);
-        try {
-            await db.connect();
-            console.log('✅ Connected to PostgreSQL');
-        } catch (error) {
-            console.error('❌ Database connection error:', error);
-        }
-    });
+  app.listen(PORT, async () => {
+    console.log(`✅ Server running on port ${PORT}`);
+    try {
+      await db.connect();
+      console.log('✅ Connected to PostgreSQL');
+    } catch (error) {
+      console.error('❌ Database connection error:', error);
+    }
+  });
 }
 
 export default app;
