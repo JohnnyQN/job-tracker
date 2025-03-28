@@ -12,27 +12,27 @@ import db from './db.js';
 dotenv.config();
 const app = express();
 
-// ✅ CORS Setup - Allow both local and deployed frontend
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://job-tracker-frontend.onrender.com',
-];
+// ✅ Dynamic CORS Setup
+const allowedOrigins = (process.env.FRONTEND_URLS || 'http://localhost:3000')
+  .split(',')
+  .map(origin => origin.trim());
 
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.error('❌ CORS error: Origin not allowed:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
 }));
 
-// ✅ Express Middleware
+// ✅ Middleware
 app.use(express.json());
 app.use(session({
-  secret: process.env.JWT_SECRET,
+  secret: process.env.JWT_SECRET || 'fallbacksecret',
   resave: false,
   saveUninitialized: true,
 }));
@@ -43,10 +43,6 @@ app.use((req, res, next) => {
   console.log("📡 Received request:", req.method, req.url);
   next();
 });
-
-// ✅ Debug Logs
-console.log("✅ Server is starting...");
-console.log("✅ Auth routes loaded:", !!authRoutes);
 
 // ✅ Routes
 app.use('/api/auth', authRoutes);
@@ -59,7 +55,7 @@ app.get('/', (req, res) => {
   res.send("🚀 Job Tracker API is running!");
 });
 
-// ✅ Server Startup & DB Connection
+// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async () => {
