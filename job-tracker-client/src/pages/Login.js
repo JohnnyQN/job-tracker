@@ -37,9 +37,9 @@ const Login = () => {
                 <button type="submit">Login</button>
             </form>
             
-            <button onClick={handleGoogleLogin} style={{ marginTop: '10px', padding: '10px', backgroundColor: '#4285F4', color: 'white', border: 'none', cursor: 'pointer' }}>
+            {/* <button onClick={handleGoogleLogin} style={{ marginTop: '10px', padding: '10px', backgroundColor: '#4285F4', color: 'white', border: 'none', cursor: 'pointer' }}>
                 Sign in with Google
-            </button>
+            </button> */}
         </div>
     );
 };
