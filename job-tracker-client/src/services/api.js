@@ -76,8 +76,12 @@ export const getJobById = async (id) => {
 
 export const createJob = async (jobData) => {
     try {
-        console.log("📡 Creating job:", jobData);
-        const response = await axios.post(`${API_URL}/jobs`, jobData, { headers: getAuthHeader() });
+        // Format status to match PostgreSQL constraint (e.g., "Applied")
+        const formattedStatus = jobData.status.charAt(0).toUpperCase() + jobData.status.slice(1).toLowerCase();
+        const formattedJobData = { ...jobData, status: formattedStatus };
+
+        console.log("📡 Creating job:", formattedJobData);
+        const response = await axios.post(`${API_URL}/jobs`, formattedJobData, { headers: getAuthHeader() });
         console.log("✅ Job created:", response.data);
         return response;
     } catch (error) {
