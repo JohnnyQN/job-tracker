@@ -3,10 +3,10 @@ import app from "../server.js";
 import db from "../db.js";
 
 const testUser = {
-    name: "Test User",
-    email: `testuser_${Date.now()}@example.com`,
-    password: "password123"
-  };
+  name: "Test User",
+  email: `testuser_${Date.now()}@example.com`,
+  password: "password123"
+};
 
 let token;
 let jobId;
@@ -16,13 +16,24 @@ beforeAll(async () => {
   await db.query("DELETE FROM jobs");
   await db.query("DELETE FROM users WHERE email = $1", [testUser.email]);
 
-  await request(app).post("/api/auth/register").send(testUser);
+  const registerRes = await request(app).post("/api/auth/register").send(testUser);
+  if (registerRes.statusCode !== 201) {
+    console.error("❌ Registration failed:", registerRes.statusCode, registerRes.body);
+    throw new Error("Registration failed");
+  }
+
   const loginRes = await request(app).post("/api/auth/login").send({
     email: testUser.email,
     password: testUser.password
   });
 
+  console.log("🔑 Login Response:", loginRes.statusCode, loginRes.body);
+
   token = loginRes.body.token;
+  if (!token) {
+    console.error("❌ Failed to get token");
+    throw new Error("Login failed");
+  }
 
   const jobRes = await request(app)
     .post("/api/jobs")
@@ -30,11 +41,15 @@ beforeAll(async () => {
     .send({
       company: "Meta",
       position: "Frontend Dev",
-      status: "applied",
-      application_date: "2025-03-25" // ✅ required field
+      status: "Applied",
+      application_date: "2025-03-25"
     });
 
-  jobId = jobRes.body.job.id;
+  jobId = jobRes.body.job?.id;
+  if (!jobId) {
+    console.error("❌ Failed to create job:", jobRes.body);
+    throw new Error("Job creation failed");
+  }
 });
 
 describe("Calendar Routes", () => {
@@ -67,4 +82,7 @@ describe("Calendar Routes", () => {
 
     expect(res.statusCode).toBe(400);
   });
+});
+afterAll(async () => {
+  await db.end();
 });

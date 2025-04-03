@@ -31,7 +31,7 @@ describe("Job Routes", () => {
       .send({
         company: "Google",
         position: "Software Engineer",
-        status: "applied",
+        status: "Applied",
         application_date: "2025-03-25" // ✅ required field
       });
 
@@ -47,4 +47,7 @@ describe("Job Routes", () => {
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   });
+});
+afterAll(async () => {
+  await db.end();
 });

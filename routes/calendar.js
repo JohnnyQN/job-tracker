@@ -14,7 +14,7 @@ router.post('/schedule', authMiddleware, async (req, res) => {
   try {
     const {
       title,
-      dateTime,  // e.g. "2025-03-29T08:30"
+      dateTime,  
       duration,
       location,
       userEmail,
@@ -28,23 +28,24 @@ router.post('/schedule', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    const [dateStr, timeStr] = dateTime.split('T');
-    const timeWithSeconds = `${timeStr}:00`;
+    const [dateStr, timeStr] = dateTime.split('T'); 
+    const timeWithSeconds = `${timeStr}:00`; 
 
     const result = await db.query(
-      `INSERT INTO scheduled_interviews
-         (user_id, job_id, title, date, time, duration, location, description)
+      `INSERT INTO interviews
+         (user_id, job_id, date, time, title, duration, location, userEmail, description, created_at)
        VALUES
-         ($1, $2, $3, $4, $5, $6, $7, $8)
+         ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
        RETURNING *`,
       [
         userId,
         jobId,
-        title,
         dateStr,
         timeWithSeconds,
+        title,
         duration,
         location,
+        userEmail,
         description || ''
       ]
     );
@@ -66,7 +67,7 @@ router.get('/scheduled', authMiddleware, async (req, res) => {
     if (!userId) return res.status(401).json({ error: "Unauthorized - no user" });
 
     const dbResponse = await db.query(
-      `SELECT * FROM scheduled_interviews
+      `SELECT * FROM interviews
         WHERE user_id = $1
         ORDER BY date ASC, time ASC`,
       [userId]
@@ -124,7 +125,7 @@ router.put('/interview/:id', authMiddleware, async (req, res) => {
 
     const result = await db.query(
       `UPDATE interviews SET 
-        notes = $1,
+        title = $1,
         date = $2,
         time = $3,
         duration = $4,

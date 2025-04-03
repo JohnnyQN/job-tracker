@@ -36,3 +36,6 @@ describe("Auth Routes", () => {
     expect(res.statusCode).toBe(401);
   });
 });
+afterAll(async () => {
+  await db.end();
+});
