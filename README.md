@@ -1,70 +1,80 @@
-📌 Job Application Tracker
+# 📌 Job Application Tracker
 
-A full-stack web application to track job applications, interviews, and follow-ups — built with Node.js, Express, PostgreSQL, and React.
+🔗 **Live Demo**: [https://job-tracker-frontend-0fs5.onrender.com](https://job-tracker-frontend-0fs5.onrender.com)
 
-🚀 Features
+---
 
-✅ User Authentication (JWT-based)
+## 📊 Database Schema
 
-✅ CRUD Job Applications (Create, Read, Update, Delete)
 
-✅ Interview Scheduling & Notes
+Below is the visual representation of the database schema used in this app:
 
-✅ Token-Based Auth Middleware
+![Job Tracker Schema](./job-tracker-schema.png)
 
-✅ PostgreSQL Integration
+---
 
-✅ Fully Tested API Endpoints
+A full-stack job application tracker to help users organize job applications, schedule interviews, and take notes — all in one place. Built with **Node.js**, **Express**, **PostgreSQL**, and **React**.
 
-🔜 Upcoming:
+---
 
-📊 Analytics Dashboard
+## 🚀 Features
 
-🗕️ Google Calendar API Integration
+- ✅ User Authentication (JWT-based)
+- ✅ Create, Read, Update, Delete job applications
+- ✅ Interview Scheduling with notes and time
+- ✅ Token-based Auth Middleware
+- ✅ PostgreSQL Integration
+- ✅ Tested API Endpoints with Supertest & Jest
 
-📝 Resume Matching & Job Import
+---
 
-🧰 Tech Stack
+## 🔜 Planned Enhancements
 
-Backend:
+- 📊 Analytics Dashboard (application status trends)
+- 🗓️ Google Calendar API Integration
+- 📝 Resume Matching via OpenAI API
+- 🔗 Job Board Integrations
+- 🗂️ Role-Based User Permissions
 
-Node.js + Express.js
+---
 
-PostgreSQL (pg)
+## 🧰 Tech Stack
 
-JWT + bcryptjs
+### Backend
+- Node.js + Express.js
+- PostgreSQL (pg)
+- JWT + bcryptjs
+- Sequelize ORM *(planned)*
 
-Sequelize ORM
+### Frontend
+- React (via Create React App)
+- React Router DOM
+- Material UI *(planned)*
+- Redux *(planned)*
 
-Frontend:
+---
 
-React (via Create React App)
-
-React Router DOM
-
-Material UI (Planned)
-
-Redux (Planned)
-
-🗂 Project Structure
+## 🗂️ Project Structure
 
 job-tracker/
-├── client/                # React frontend
-│   └── README.md          # CRA default readme (optional)
-├── server/                # Express backend
+├── job-tracker-client/     # React frontend
+│   └── src/
+├── server/                 # Express backend
 │   ├── routes/
-│   ├── models/
 │   ├── middleware/
 │   └── ...
-├── tests/                 # Jest + Supertest files
-├── migrations/            # SQL schema
-├── db.js                  # PG database connection
-├── server.js              # App entry point
-├── README.md              # ← YOU ARE HERE
-└── .env                   # Environment variables
+├── migrations/             # SQL schema
+├── tests/                  # Jest + Supertest
+├── db.js                   # PG connection
+├── server.js               # App entry point
+├── README.md               # ← You are here
+└── .env                    # Environment variables
 
-📦 Installation
+---
 
+## 📦 Installation
+
+```bash
 git clone https://github.com/JohnnyQN/job-tracker.git
 cd job-tracker
 npm install
@@ -79,18 +89,16 @@ JWT_SECRET=your_jwt_secret_key
 
 ▶️ Running the App
 
-👥 Backend
+🔧 Backend
 
 node server.js
-
-or with hot-reloading:
-
+# OR for auto-reloading:
 npm install -g nodemon
 nodemon server.js
 
-🌐 Frontend (if configured)
+💻 Frontend
 
-cd client
+cd job-tracker-client
 npm install
 npm start
 
@@ -98,15 +106,15 @@ Open http://localhost:3000
 
 🧪 Testing
 
-Run all tests with:
-
 npm test
 
-Tests include:
+Tests cover:
 
-User registration & login
-Job CRUD functionality
-Interview scheduling
+    ✅ User registration and login
+
+    ✅ Job CRUD operations
+
+    ✅ Interview scheduling
 
 📡 API Endpoints
 
@@ -135,10 +143,13 @@ POST	/api/calendar/schedule	Schedule an interview
 
 📌 Future Enhancements
 
-🔹 LinkedIn/Job Board Integrations
-🔹 Resume Matching via OpenAI API
-🔹 Timeline View for Applications
-🔹 Role-based User Permissions
+🔍 Resume Matching via NLP
+
+📅 Timeline view of all job stages
+
+📥 Bulk import of applications
+
+📈 Weekly success rate breakdowns
 
 👨‍💼 Author
 
